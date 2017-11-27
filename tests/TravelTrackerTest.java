@@ -15,8 +15,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Rule;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -25,12 +23,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class TravelTrackerTest {
+import java.util.List;
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-    public JUnitRuleMockery context = new JUnitRuleMockery();
-    ScanListener tracker = context.mock(ScanListener.class);
+public class TravelTrackerTest {
 
     OysterCardReader reader = OysterReaderLocator.atStation(Station.PADDINGTON);
 
@@ -45,21 +40,49 @@ public class TravelTrackerTest {
     @Test
     public void trackerIsListeningToReader() {
 
-        context.checking(new Expectations() {{
-            exactly(1).of(tracker).cardScanned(registeredCard.id(), reader.id());
-        }});
+//        context.checking(new Expectations() {{
+//            exactly(1).of(reader).register(tracker);
+//        }});
+//
+//        tracker.connect(reader);
 
-        reader.register(tracker);
-        reader.touch(registeredCard);
+
+
     }
 
     @Test
+    public void journeyCorrectlyIdentifiedAsLongJourney() {
+
+        TravelTracker tracker = new TravelTracker();
+
+
+
+
+    }
+
+    @Test(expected = UnknownOysterCardException.class)
     public void trackerIdentifiesUnregisteredCard() {
 
-        exception.expect(UnknownOysterCardException.class);
+        TravelTracker tracker = new TravelTracker();
+
+        tracker.connect(reader);
+        reader.touch(unregisteredCard);
+    }
+
+    @Test
+    public void addedAndRemovedFromCurrentlyTravellingWhenTapped() {
+
+        TravelTracker tracker = new TravelTracker();
+
+        assertFalse(tracker.getCurrentlyTravelling().contains(registeredCard.id()));
 
         reader.register(tracker);
-        reader.touch(unregisteredCard);
+        reader.touch(registeredCard);
+        assertTrue(tracker.getCurrentlyTravelling().contains(registeredCard.id()));
+
+        reader.touch(registeredCard);
+        assertFalse(tracker.getCurrentlyTravelling().contains(registeredCard.id()));
+
     }
 
 }
