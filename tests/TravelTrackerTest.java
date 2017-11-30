@@ -40,14 +40,13 @@ public class TravelTrackerTest {
     @Test
     public void trackerIsListeningToReader() {
 
-//        context.checking(new Expectations() {{
-//            exactly(1).of(reader).register(tracker);
-//        }});
-//
-//        tracker.connect(reader);
+        TravelTracker tracker = new TravelTracker();
 
+        context.checking(new Expectations() {{
+            exactly(1).of(reader).register(tracker);
+        }});
 
-
+        tracker.connect(reader);
     }
 
     @Test
@@ -55,8 +54,7 @@ public class TravelTrackerTest {
 
         TravelTracker tracker = new TravelTracker();
 
-
-
+        assertTrue(tracker);
 
     }
 
