@@ -14,6 +14,8 @@ public class TravelTracker implements ScanListener {
     static final BigDecimal PEAK_SHORT_JOURNEY_PRICE = new BigDecimal(2.90);
     static final BigDecimal OFF_PEAK_LONG_JOURNEY_PRICE = new BigDecimal(2.70);
     static final BigDecimal PEAK_LONG_JOURNEY_PRICE = new BigDecimal(3.80);
+    static final BigDecimal PEAK_CAP_PRICE = new BigDecimal(9.00);
+    static final BigDecimal OFF_PEAK_CAP_PRICE = new BigDecimal(7.00);
 
     private final List<JourneyEvent> eventLog = new ArrayList<JourneyEvent>();
 
@@ -72,17 +74,26 @@ public class TravelTracker implements ScanListener {
     }
 
     private BigDecimal getCustomerTotal(List<Journey> journeys) {
+        Boolean travelledWhilePeak = false;
         BigDecimal customerTotal = new BigDecimal(0);
         for (Journey journey : journeys) {
             BigDecimal journeyPrice;
             if (isPeak(journey)) {
                 journeyPrice = isLong(journey) ? PEAK_LONG_JOURNEY_PRICE : PEAK_SHORT_JOURNEY_PRICE;
+                travelledWhilePeak = true;
             }
             else {
                 journeyPrice = isLong(journey) ? OFF_PEAK_LONG_JOURNEY_PRICE : OFF_PEAK_SHORT_JOURNEY_PRICE;
             }
 
             customerTotal = customerTotal.add(journeyPrice);
+        }
+
+        if (travelledWhilePeak && (customerTotal.compareTo(PEAK_CAP_PRICE) == 1)) {    // Meaning that customerTotal > PEAK_CAP_PRICE
+            return PEAK_CAP_PRICE;
+        }
+        else if (!travelledWhilePeak && (customerTotal.compareTo(OFF_PEAK_CAP_PRICE) == 1)) {
+            return OFF_PEAK_CAP_PRICE;
         }
         return customerTotal;
     }
@@ -107,7 +118,7 @@ public class TravelTracker implements ScanListener {
         }
     }
 
-    private boolean isLong(Journey journey) {
+    private boolean isLong(JourneyInterface journey) {
         // All time is expressed in seconds
         int duration = journey.durationSeconds();
         return (duration > 25*60);

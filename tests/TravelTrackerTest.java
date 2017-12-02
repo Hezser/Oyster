@@ -1,12 +1,15 @@
 import com.oyster.OysterCard;
 import com.oyster.OysterCardReader;
 import com.oyster.ScanListener;
+import com.tfl.billing.Journey;
+import com.tfl.billing.JourneyInterface;
 import com.tfl.billing.TravelTracker;
 import com.tfl.billing.UnknownOysterCardException;
 import com.tfl.external.Customer;
 import com.tfl.external.CustomerDatabase;
 import com.tfl.underground.OysterReaderLocator;
 import com.tfl.underground.Station;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.jmock.internal.Cardinality.exactly;
@@ -23,9 +26,15 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class TravelTrackerTest {
+
+    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
+
+    // Mock objects
+    JourneyInterface journey = context.mock(JourneyInterface.class);
 
     OysterCardReader reader = OysterReaderLocator.atStation(Station.PADDINGTON);
 
@@ -36,6 +45,7 @@ public class TravelTrackerTest {
 
     // Unregistered card with invalid ID
     OysterCard unregisteredCard = new OysterCard("00000000-0000-0000-0000-000000000000");
+
 
     @Test
     public void trackerIsListeningToReader() {
@@ -52,9 +62,14 @@ public class TravelTrackerTest {
     @Test
     public void journeyCorrectlyIdentifiedAsLongJourney() {
 
-        TravelTracker tracker = new TravelTracker();
+        context.checking(new Expectations(){{
+            oneOf(journey).durationSeconds();
+            will(returnValue(26*60));
+        }});
 
-        assertTrue(tracker);
+//        TravelTracker tracker = new TravelTracker();
+
+//        assertTrue(test_tracker.isLong(journey));
 
     }
 
