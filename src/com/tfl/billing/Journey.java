@@ -1,6 +1,7 @@
 package com.tfl.billing;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -47,6 +48,22 @@ public class Journey implements JourneyInterface {
     @Override
     public int durationSeconds() {
         return (int) ((end.time() - start.time()) / 1000);
+    }
+
+    public boolean onPeak() {
+        return onPeak(startTime()) || onPeak(endTime());
+    }
+
+    public boolean onPeak(Date time) {
+        Calendar.getInstance().setTime(time);
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return (hour >= 6 && hour <= 9) || (hour >= 17 && hour <= 19);
+    }
+
+    public boolean isLong() {
+        // All time is expressed in seconds
+        int duration = durationSeconds();
+        return (duration > 25*60);
     }
 
     @Override

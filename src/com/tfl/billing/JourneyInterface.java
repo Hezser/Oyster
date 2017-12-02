@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public interface JourneyInterface {
+
     UUID originId();
 
     UUID destinationId();
