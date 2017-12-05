@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class CustomerRecord extends CustomerDecorator {
 
-    private final List<JourneyEvent> eventLog = new ArrayList<JourneyEvent>();
+    private final List<JourneyEvent> eventLog = new ArrayList<>();
 
     public CustomerRecord(Customer customer) {
         super(customer);
@@ -39,16 +39,6 @@ public class CustomerRecord extends CustomerDecorator {
         }
 
         return journeys;
-    }
-
-    public static List<CustomerRecord> getRecordsForCustumersInDatabase() {
-        List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
-        List<CustomerRecord> customerRecords = new ArrayList<>();
-        for (Customer customer : customers) {
-            customerRecords.add(new CustomerRecord(customer));
-        }
-
-        return  customerRecords;
     }
 
 }

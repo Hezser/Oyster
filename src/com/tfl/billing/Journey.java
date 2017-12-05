@@ -50,6 +50,7 @@ public class Journey implements JourneyInterface {
         return (int) ((end.time() - start.time()) / 1000);
     }
 
+    @Override
     public boolean onPeak() {
         return onPeak(startTime()) || onPeak(endTime());
     }
@@ -60,6 +61,7 @@ public class Journey implements JourneyInterface {
         return (hour >= 6 && hour <= 9) || (hour >= 17 && hour <= 19);
     }
 
+    @Override
     public boolean isLong() {
         // All time is expressed in seconds
         int duration = durationSeconds();

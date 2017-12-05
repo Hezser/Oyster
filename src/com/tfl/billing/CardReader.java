@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public interface CardReader {
 
-    public void register(ScanListener scanListener);
+    void register(ScanListener scanListener);
 
-    public void touch(Card card);
+    void touch(Card card);
 
-    public UUID id();
+    UUID id();
 
 }

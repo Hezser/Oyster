@@ -22,6 +22,10 @@ public interface JourneyInterface {
 
     String durationMinutes();
 
+    boolean isLong();
+
+    boolean onPeak();
+
     default String format(long time) {
         return SimpleDateFormat.getInstance().format(new Date(time));
     }

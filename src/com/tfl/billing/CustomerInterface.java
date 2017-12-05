@@ -1,11 +1,20 @@
 package com.tfl.billing;
 
+import com.tfl.external.Customer;
+
+import java.util.List;
 import java.util.UUID;
 
 public interface CustomerInterface {
 
-    public UUID cardId();
+    UUID cardId();
 
-    public String fullName();
+    String fullName();
+
+    Customer getCustomer();
+
+    List<Journey> getJourneys();
+
+    void addEvent(JourneyEvent event);
 
 }

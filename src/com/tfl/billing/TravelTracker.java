@@ -23,15 +23,12 @@ public class TravelTracker implements ScanListener {
 
     private final Set<UUID> currentlyTravelling = new HashSet<UUID>();
 
-    public void chargeAccounts() {
+    public void chargeAccounts(List<CustomerInterface> customerRecords, PaymentsSystemInterface paymentSystem) {
 
-        List<CustomerRecord> customerRecords = CustomerRecord.getRecordsForCustumersInDatabase();
-
-
-        for (CustomerRecord customerRecord : customerRecords) {
+        for (CustomerInterface customerRecord : customerRecords) {
             List<Journey> journeys = customerRecord.getJourneys();
             BigDecimal customerTotal = getCustomerTotal(journeys);
-            PaymentsSystem.getInstance().charge(customerRecord.getCustomer(), journeys, roundToNearestPenny(customerTotal));
+            paymentSystem.charge(customerRecord, journeys, roundToNearestPenny(customerTotal));
         }
     }
 
@@ -64,17 +61,17 @@ public class TravelTracker implements ScanListener {
         return poundsAndPence.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
-    public void connect(OysterCardReader... cardReaders) {
-        for (OysterCardReader cardReader : cardReaders) {
+    public void connect(CardReader... cardReaders) {
+        for (CardReader cardReader : cardReaders) {
             cardReader.register(this);
         }
     }
 
-    private CustomerRecord customerForCardId(UUID cardId) throws UnknownOysterCardException {
-        List<CustomerRecord> customers = CustomerRecord.getRecordsForCustumersInDatabase();
-        for (CustomerRecord customer : customers) {
-            if (customer.cardId().equals(cardId)) {
-                return customer;
+    private CustomerInterface customerForCardId(UUID cardId) throws UnknownOysterCardException {
+        List<CustomerInterface> customerRecords = CustomerRecordDatabase.getInstance().getCustomerRecords();
+        for (CustomerInterface customerRecord : customerRecords) {
+            if (customerRecord.cardId().equals(cardId)) {
+                return customerRecord;
             }
         }
 
@@ -83,12 +80,11 @@ public class TravelTracker implements ScanListener {
 
     @Override
     public void cardScanned(UUID cardId, UUID readerId) {
-        List<Customer> customers = CustomerDatabase.getInstance().getCustomers();
         if (currentlyTravelling.contains(cardId)) {
             customerForCardId(cardId).addEvent(new JourneyEnd(cardId, readerId));
             currentlyTravelling.remove(cardId);
         } else {
-            if (CustomerDatabase.getInstance().isRegisteredId(cardId)) {
+            if (CustomerRecordDatabase.getInstance().isRegisteredId(cardId)) {
                 currentlyTravelling.add(cardId);
                 customerForCardId(cardId).addEvent(new JourneyStart(cardId, readerId));
             } else {
