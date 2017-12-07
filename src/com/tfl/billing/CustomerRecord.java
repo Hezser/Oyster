@@ -25,8 +25,8 @@ public class CustomerRecord extends CustomerDecorator {
         eventLog.add(event);
     }
 
-    public List<Journey> getJourneys() {
-        List<Journey> journeys = new ArrayList<Journey>();
+    public List<JourneyInterface> getJourneys() {
+        List<JourneyInterface> journeys = new ArrayList<>();
         JourneyEvent start = null;
         for (JourneyEvent event : eventLog) {
             if (event instanceof JourneyStart) {

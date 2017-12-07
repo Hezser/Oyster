@@ -46,6 +46,16 @@ public class Journey implements JourneyInterface {
     }
 
     @Override
+    public JourneyEvent getStart() {
+        return start;
+    }
+
+    @Override
+    public JourneyEvent getEnd() {
+        return end;
+    }
+
+    @Override
     public int durationSeconds() {
         return (int) ((end.time() - start.time()) / 1000);
     }
@@ -58,6 +68,7 @@ public class Journey implements JourneyInterface {
     public boolean onPeak(Date time) {
         Calendar.getInstance().setTime(time);
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        System.out.println(time);
         return (hour >= 6 && hour <= 9) || (hour >= 17 && hour <= 19);
     }
 

@@ -19,7 +19,6 @@ public class OysterCardReaderAdapter implements CardReader {
         this.adaptee.register(scanListener);
     }
 
-
     @Override
     public void touch(Card card) {
         if (card instanceof OysterCardAdapter) {

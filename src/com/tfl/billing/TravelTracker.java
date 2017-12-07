@@ -26,16 +26,16 @@ public class TravelTracker implements ScanListener {
     public void chargeAccounts(List<CustomerInterface> customerRecords, PaymentsSystemInterface paymentSystem) {
 
         for (CustomerInterface customerRecord : customerRecords) {
-            List<Journey> journeys = customerRecord.getJourneys();
+            List<JourneyInterface> journeys = customerRecord.getJourneys();
             BigDecimal customerTotal = getCustomerTotal(journeys);
             paymentSystem.charge(customerRecord, journeys, roundToNearestPenny(customerTotal));
         }
     }
 
-    private BigDecimal getCustomerTotal(List<Journey> journeys) {
+    private BigDecimal getCustomerTotal(List<JourneyInterface> journeys) {
         Boolean travelledOnPeak = false;
         BigDecimal customerTotal = new BigDecimal(0);
-        for (Journey journey : journeys) {
+        for (JourneyInterface journey : journeys) {
             BigDecimal journeyPrice;
             if (journey.onPeak()) {
                 journeyPrice = journey.isLong() ? PEAK_LONG_JOURNEY_PRICE : PEAK_SHORT_JOURNEY_PRICE;

@@ -14,6 +14,12 @@ public abstract class JourneyEvent {
         this.time = System.currentTimeMillis();
     }
 
+    public JourneyEvent(UUID cardId, UUID readerId, long time) {
+        this.cardId = cardId;
+        this.readerId = readerId;
+        this.time = time;
+    }
+
     public UUID cardId() {
         return cardId;
     }

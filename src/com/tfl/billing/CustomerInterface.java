@@ -13,7 +13,7 @@ public interface CustomerInterface {
 
     Customer getCustomer();
 
-    List<Journey> getJourneys();
+    List<JourneyInterface> getJourneys();
 
     void addEvent(JourneyEvent event);
 

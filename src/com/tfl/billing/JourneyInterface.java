@@ -18,6 +18,10 @@ public interface JourneyInterface {
 
     Date endTime();
 
+    JourneyEvent getStart();
+
+    JourneyEvent getEnd();
+
     int durationSeconds();
 
     String durationMinutes();

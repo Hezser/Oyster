@@ -3,6 +3,7 @@ package com.tfl.billing;
 import com.tfl.external.PaymentsSystem;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentsSystemAdapter implements PaymentsSystemInterface {
@@ -20,7 +21,11 @@ public class PaymentsSystemAdapter implements PaymentsSystemInterface {
     }
 
     @Override
-    public void charge(CustomerInterface customerRecord, List<Journey> journeys, BigDecimal totalBill) {
-        adaptee.charge(customerRecord.getCustomer(), journeys, totalBill);
+    public void charge(CustomerInterface customerRecord, List<JourneyInterface> journeys, BigDecimal totalBill) {
+        List<Journey> convertedJourneys = new ArrayList<>();
+        for (JourneyInterface journey : journeys) {
+            convertedJourneys.add(new Journey(journey.getStart(), journey.getEnd()));
+        }
+        adaptee.charge(customerRecord.getCustomer(), convertedJourneys, totalBill);
     }
 }

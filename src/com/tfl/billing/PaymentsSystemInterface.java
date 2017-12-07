@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PaymentsSystemInterface {
 
-    void charge(CustomerInterface customer, List<Journey> journeys, BigDecimal totalBill);
+    void charge(CustomerInterface customer, List<JourneyInterface> journeys, BigDecimal totalBill);
 
 }
