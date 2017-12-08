@@ -1,12 +1,9 @@
 package com.tfl.billing;
 
-import com.oyster.OysterCard;
 import com.tfl.external.Customer;
-import com.tfl.external.CustomerDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CustomerRecord extends CustomerDecorator {
 

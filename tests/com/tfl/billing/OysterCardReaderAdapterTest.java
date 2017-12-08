@@ -3,19 +3,13 @@ package com.tfl.billing;
 import com.oyster.OysterCard;
 import com.oyster.OysterCardReader;
 import com.oyster.ScanListener;
-import org.hamcrest.Description;
 import org.jmock.Expectations;
-import org.jmock.api.Expectation;
-import org.jmock.api.Invocation;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.Assert.*;
 
 public class OysterCardReaderAdapterTest {
 

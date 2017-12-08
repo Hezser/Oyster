@@ -1,9 +1,6 @@
 package com.tfl.billing;
 
 import com.oyster.*;
-import com.tfl.external.CustomerDatabase;
-import com.tfl.external.PaymentsSystem;
-import com.tfl.external.Customer;
 
 import java.math.BigDecimal;
 import java.util.*;

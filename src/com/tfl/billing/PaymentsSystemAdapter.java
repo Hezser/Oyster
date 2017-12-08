@@ -8,16 +8,13 @@ import java.util.List;
 
 public class PaymentsSystemAdapter implements PaymentsSystemInterface {
 
-    private PaymentsSystem adaptee;
-
-    private static PaymentsSystemAdapter instance = new PaymentsSystemAdapter(PaymentsSystem.getInstance());
+    private static PaymentsSystemAdapter instance = new PaymentsSystemAdapter();
 
     public static PaymentsSystemAdapter getInstance() {
         return instance;
     }
 
-    public PaymentsSystemAdapter(PaymentsSystem paymentsSystem) {
-        this.adaptee = paymentsSystem;
+    private PaymentsSystemAdapter() {
     }
 
     @Override
@@ -26,6 +23,6 @@ public class PaymentsSystemAdapter implements PaymentsSystemInterface {
         for (JourneyInterface journey : journeys) {
             convertedJourneys.add(new Journey(journey.getStart(), journey.getEnd()));
         }
-        adaptee.charge(customerRecord.getCustomer(), convertedJourneys, totalBill);
+        PaymentsSystem.getInstance().charge(customerRecord.getCustomer(), convertedJourneys, totalBill);
     }
 }

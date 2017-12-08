@@ -17,7 +17,8 @@ import java.util.UUID;
 
 public class TravelTrackerTest {
 
-    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     // Mock objects
     CardReader reader = context.mock(CardReader.class);

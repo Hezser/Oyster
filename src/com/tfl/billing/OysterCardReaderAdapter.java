@@ -3,7 +3,6 @@ package com.tfl.billing;
 import com.oyster.OysterCardReader;
 import com.oyster.ScanListener;
 
-import java.util.Iterator;
 import java.util.UUID;
 
 public class OysterCardReaderAdapter implements CardReader {
